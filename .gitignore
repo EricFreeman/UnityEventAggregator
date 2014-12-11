@@ -1,0 +1,6 @@
+**/obj/
+**/bin/
+*.suo
+*.csproj.user
+*.vshost.exe.*
+
