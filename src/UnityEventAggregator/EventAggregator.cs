@@ -15,9 +15,11 @@ namespace UnityEventAggregator
         /// </summary>
         /// <typeparam name="T">The type of event being listened for.</typeparam>
         /// <param name="obj"></param>
-        public static void Register<T>(this object obj)
+        public static void Register<T>(this T obj) where T : struct
         {
-            if (!_cache.ContainsKey(typeof(T))) _cache[typeof(T)] = new List<object>();
+            if (!_cache.ContainsKey(typeof(T))) 
+                _cache[typeof(T)] = new List<object>();
+
             _cache[typeof(T)].Add(obj);
         }
 
@@ -26,7 +28,7 @@ namespace UnityEventAggregator
         /// </summary>
         /// <typeparam name="T">The type of event to no longer listen for.</typeparam>
         /// <param name="obj"></param>
-        public static void UnRegister<T>(this object obj)
+        public static void UnRegister<T>(this T obj) where T : struct 
         {
             if (!_cache.ContainsKey(typeof(T))) return;
             _cache[typeof(T)].Remove(obj);
@@ -37,7 +39,7 @@ namespace UnityEventAggregator
         /// </summary>
         /// <typeparam name="T">The type of event being notified.</typeparam>
         /// <param name="message"></param>
-        public static void SendMessage<T>(T message)
+        public static void SendMessage<T>(T message) where T : struct
         {
             _cache[message.GetType()].Each(x => ((IListener<T>)x).Handle(message));
         }
@@ -46,7 +48,7 @@ namespace UnityEventAggregator
         /// Creates the cache for objects that listen to each event
         /// </summary>
         /// <typeparam name="T">Searches through all active GameObjects for those listening for event T and auto registers them.</typeparam>
-        public static void UpdateCache<T>()
+        public static void UpdateCache<T>() where T : struct
         {
             var type = typeof(IListener<T>);
             var list = new List<object>();
