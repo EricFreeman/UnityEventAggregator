@@ -35,6 +35,32 @@ namespace UnityEventAggregator
         }
 
         /// <summary>
+        /// Register the game object to listen for events of type T.
+        /// </summary>
+        /// <typeparam name="T">The type of event being listened for.</typeparam>
+        /// <param name="obj"></param>
+        /// <param name="listener"></param>
+        public static void Register(object obj, Type listener)
+        {
+            if (!_cache.ContainsKey(listener))
+                _cache[listener] = new List<object>();
+
+            _cache[listener].Add(obj);
+        }
+
+        /// <summary>
+        /// Removes the registration for listening to events of type T.
+        /// </summary>
+        /// <typeparam name="T">The type of event to no longer listen for.</typeparam>
+        /// <param name="obj"></param>
+        /// <param name="listener"></param>
+        public static void UnRegister(object obj, Type listener)
+        {
+            if (!_cache.ContainsKey(listener)) return;
+            _cache[listener].Remove(obj);
+        }
+
+        /// <summary>
         /// Notifies all listeners of event type T.
         /// </summary>
         /// <typeparam name="T">The type of event being notified.</typeparam>
