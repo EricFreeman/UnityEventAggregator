@@ -7,6 +7,8 @@ namespace UnityEventAggregator
 {
     public class BaseClass : MonoBehaviour
     {
+        private Type[] _typeCache;
+
         void Start()
         {
             GetListenerTypes().Each(x => EventAggregator.Register(this, x));
@@ -19,12 +21,18 @@ namespace UnityEventAggregator
 
         IEnumerable<Type> GetListenerTypes()
         {
-            return GetType()
-                    .GetInterfaces()
-                    .Where(x => x.IsGenericType)
-                    .Where(x => x.GetGenericTypeDefinition() == typeof(IListener<>))
-                    .Select(x => x.GetGenericArguments())
-                    .First();
+            if (_typeCache != null) return _typeCache;
+
+            var types = GetType()
+                        .GetInterfaces()
+                        .Where(x => x.IsGenericType)
+                        .Where(x => x.GetGenericTypeDefinition() == typeof(IListener<>))
+                        .Select(x => x.GetGenericArguments())
+                        .First();
+
+            _typeCache = types;
+
+            return types;
         }
     }
 }
