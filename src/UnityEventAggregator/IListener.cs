@@ -1,6 +1,6 @@
 ﻿namespace UnityEventAggregator
 {
-    public interface IListener<T> where T : struct
+    public interface IListener<T>
     {
         void Handle(T message);
     }
