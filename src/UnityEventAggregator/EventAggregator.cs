@@ -65,6 +65,7 @@ namespace UnityEventAggregator
         /// <param name="message"></param>
         public static void SendMessage<T>(T message)
         {
+            if (!_cache.ContainsKey(message.GetType())) return;
             _cache[message.GetType()].Each(x => ((IListener<T>)x).Handle(message));
         }
 
