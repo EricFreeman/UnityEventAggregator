@@ -7,7 +7,7 @@ Event aggregation in Unity3D made easy!  Decouple your GameObjects for simpler a
 [Look at how gross this is.](http://docs.unity3d.com/412/Documentation/ScriptReference/index.Accessing_Other_Game_Objects.html)  Disgusting, huh?  Now what if there was an easy way to send messages to other game objects in Unity3D without coupling everything to hell or using skittles magic?
 
 #### That way is here.
-Just flop the .dll into your existing Unity3D project and get started.  Messages must be a struct (because we're a green framework and want to create less garbage).
+Just drop the .dll into your existing Unity3D project and get started.  Messages must be a class.
 
 To start listening to events, your MonoBehaviour must also inherit from `IListener<(message)>`.  This will create the handler for the message.
 
